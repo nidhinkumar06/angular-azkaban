@@ -25,13 +25,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        // unsubscribe to ensure no memory leaks
         this.currentUserSubscription.unsubscribe();
     }
 
     private loadData() {
         this.userService.getById(this.currentUser.token).pipe(first()).subscribe(users => {
-          console.log('users are', users);
             this.users = users;
         });
     }

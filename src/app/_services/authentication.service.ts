@@ -32,23 +32,10 @@ export class AuthenticationService {
 
       const user = {username: username};
       const pwd = {password: password};
-        console.log('data is', data);
-        let user = {
-          id: 1,
-          username: username,
-          password: password,
-          firstName: username,
-          lastName: username,
-          token: "afaf4c34-7bc8-48a4-ac6b-8636092c3fc0",
-        }
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
+
         return this.http.post<any>(`${this.baseUrl}?action=login&`, {user, pwd})
             .pipe(map(user => {
-                console.log('response is', user);
-                // login successful if there's a jwt token in the response
                 if (user && user.id) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);
                 }
@@ -58,7 +45,6 @@ export class AuthenticationService {
     }
 
     logout() {
-        // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
