@@ -47,26 +47,16 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
-        let user = {
-          id: 1,
-          username: this.f.username.value,
-          password: this.f.password.value,
-          firstName: this.f.username.value,
-          lastName: this.f.username.value,
-          token: "afaf4c34-7bc8-48a4-ac6b-8636092c3fc0",
-        }
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.router.navigate(['/']);
-        // this.authenticationService.login(this.f.username.value, this.f.password.value)
-        //     .pipe(first())
-        //     .subscribe(
-        //         data => {
-        //           console.log('data is', data);
-        //             this.router.navigate([this.returnUrl]);
-        //         },
-        //         error => {
-        //             this.alertService.error(error);
-        //             this.loading = false;
-        //         });
+        this.authenticationService.login(this.f.username.value, this.f.password.value)
+            .pipe(first())
+            .subscribe(
+                data => {
+                  console.log('data is', data);
+                    this.router.navigate([this.returnUrl]);
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
     }
 }

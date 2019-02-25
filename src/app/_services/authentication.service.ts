@@ -29,8 +29,21 @@ export class AuthenticationService {
         username: username,
         password: password
       };
+
+      const user = {username: username};
+      const pwd = {password: password};
         console.log('data is', data);
-        return this.http.post<any>(`${this.baseUrl}?action=login&`, data)
+        let user = {
+          id: 1,
+          username: username,
+          password: password,
+          firstName: username,
+          lastName: username,
+          token: "afaf4c34-7bc8-48a4-ac6b-8636092c3fc0",
+        }
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        return this.http.post<any>(`${this.baseUrl}?action=login&`, {user, pwd})
             .pipe(map(user => {
                 console.log('response is', user);
                 // login successful if there's a jwt token in the response
