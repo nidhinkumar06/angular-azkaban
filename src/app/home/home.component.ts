@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     private loadData() {
         this.userService.getById(this.currentUser.token).pipe(first()).subscribe(users => {
+          console.log('users are', users);
             this.users = users;
         });
     }
