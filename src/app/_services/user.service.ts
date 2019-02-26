@@ -12,8 +12,8 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
 
-    getById(id: string) {
-        return this.http.get<User[]>(`${this.baseUrl}/${this.params}=${id}`);
+    getByToken(token: string) {
+        return this.http.get<User[]>(`${this.baseUrl}/${this.params}=${token}`);
     }
 
 }

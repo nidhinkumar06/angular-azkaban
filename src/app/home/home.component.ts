@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     private loadData() {
-        this.userService.getById(this.currentUser.token).pipe(first()).subscribe(users => {
+        this.userService.getByToken(this.currentUser.token).pipe(first()).subscribe(users => {
             this.users = users;
         });
     }
