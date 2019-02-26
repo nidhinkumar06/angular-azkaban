@@ -3,17 +3,17 @@ import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { User } from '../_models';
-import { UserService, AuthenticationService } from '../_services';
+import { FlowService, AuthenticationService } from '../_services';
 
 @Component({ templateUrl: 'home.component.html' })
 export class HomeComponent implements OnInit, OnDestroy {
     currentUser: User;
     currentUserSubscription: Subscription;
-    users: User[] = [];
+    datas: any = {};
 
     constructor(
         private authenticationService: AuthenticationService,
-        private userService: UserService
+        private flowService: FlowService
     ) {
         this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
             this.currentUser = user;
@@ -29,8 +29,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     private loadData() {
-        this.userService.getByToken(this.currentUser.token).pipe(first()).subscribe(users => {
-            this.users = users;
+        let token = this.currentUser.token;
+        let filter = {
+          project: 'Test',
+          flow: 'basic',
+          start: 0,
+          length: 3
+        };
+        this.flowService.getAll(token, filter).pipe(first()).subscribe(response => {
+            this.datas = response;
         });
     }
 }
