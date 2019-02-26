@@ -2,10 +2,17 @@
 
 Angular 7 project with Azkaban backend.
 
+## Installation
+
+  1. Clone the project
+  2. go to the project directory
+  3. npm install
+  4. ng serve -o
+
 ## Service File Path
 
 Authentication Service =>  Src -> app -> _ services -> authentication.service.ts
-Data Fectching =>  Src -> app -> _ services -> user.service.ts
+Data Fectching =>  Src -> app -> _ services -> flow.service.ts
 
 ## Plugins Installed
 
