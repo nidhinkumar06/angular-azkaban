@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -25,22 +25,25 @@ export class AuthenticationService {
 
 
     login(username: string, password: string) {
-      const data = {
-        username: username,
-        password: password
-      };
+      const data = new HttpParams()
+        .set('username', username)
+        .set('password', password);
 
-      const user = {username: username};
-      const pwd = {password: password};
-
-        return this.http.post<any>(`${this.baseUrl}?action=login&`, {user, pwd})
-            .pipe(map(user => {
-                if (user && user.id) {
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    this.currentUserSubject.next(user);
+        return this.http.post<any>(`${this.baseUrl}?action=login&`, data)
+            .pipe(map(response => {
+                if (response.status === 'success') {
+                    let responseData = {
+                      id: 1,
+                      username: username,
+                      firstName: username,
+                      lastName: username,
+                      token: response['session.id']
+                    }
+                    localStorage.setItem('currentUser', JSON.stringify(responseData));
+                    this.currentUserSubject.next(responseData);
                 }
 
-                return user;
+                return response;
             }));
     }
 

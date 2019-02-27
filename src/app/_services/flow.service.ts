@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class FlowService {
-    baseUrl = environment.baseUrl + '/manager?';
+    baseUrl = environment.baseUrl + 'manager?';
     public params: string;
     constructor(private http: HttpClient) { }
 
