@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -12,6 +12,7 @@ export class AuthenticationService {
     public currentUser: Observable<User>;
 
     baseUrl = environment.baseUrl;
+    corsUrl = environment.corsUrl;
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -29,8 +30,11 @@ export class AuthenticationService {
         .set('username', username)
         .set('password', password);
 
-        return this.http.post<any>(`${this.baseUrl}?action=login&`, data)
+        return this.http.post<any>(`${this.corsUrl}${this.baseUrl}?action=login&`, data, {headers: new HttpHeaders()
+           .set('Content-Type', 'application/x-www-form-urlencoded')
+         })
             .pipe(map(response => {
+                console.log('response', response);
                 if (response.status === 'success') {
                     let responseData = {
                       id: 1,
